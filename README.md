@@ -6,14 +6,17 @@
 3. run `npm install` to install the dependencies
 4. run `npm start` and the app will run on your http://localhost:3000/
 
-## design, additional features and challenges
+## design, additional features
 - following Bree's design themes with simple and clean interface
 - For desktop and tablet, there is a sidebar to navigate between pages
 - for mobile it is a bottom nav. I considered to use a burger icon, but decided this is more user friendly for mobile app users.
 - I added feature of auto closing 3 seconds after the success message for requests for a smoother user experience.
 - For the details shown when hovering on transactions, I designed it to follow your cursor for simplicity and clarity.
 - I added a unit test to test on the error handling when user inputs >350. I belive this is a super critical component to test on.
-- If I'm writing production code, I would spend more time to improve further on maintainability such as factoring out reusable component CSS.
+  
+## challenges
+- To save time, I worked on CSS and jsx in the same file. If I am writing production code I would factor out the CSS for styled-component in its own file and import it. If I'm writing production code, I would also spend more time to improve further on maintainability such as factoring out reusable component CSS.
+
 
 
 
