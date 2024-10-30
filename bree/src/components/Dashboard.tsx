@@ -101,6 +101,10 @@ const Pane = styled.div`
   width: 100%;
   max-width: 600px;
 
+  /* Add minimum constraints to avoid squishing */
+  min-width: 350px;
+  min-height: 500px;
+
   @media (min-width: 768px) {
     max-width: 80%;
   }
@@ -133,16 +137,22 @@ const NavItem = styled.div<{ active?: boolean }>`
   align-items: center;
   justify-content: center;
   padding: 10px;
-  width: 50px;
-  height: 50px;
+  width: 60px; /* Adjust width for icon and text */
+  height: 70px; /* Adjust height to fit icon and text */
   cursor: pointer;
-  border-radius: 20%; /* Make it fully rounded */
+  border-radius: 12px; /* Rounded corners */
   background-color: ${(props) => (props.active ? "#f4f4f6" : "transparent")};
   color: ${(props) => (props.active ? primaryColor : "#7d7d7d")};
   transition: background-color 0.3s, color 0.3s;
 
   & svg {
     font-size: 1.8rem;
+    margin-bottom: 4px; /* Space between icon and text */
+  }
+
+  span {
+    font-size: 0.9rem; /* Smaller text size */
+    font-weight: 500; /* Medium weight for text */
   }
 
   &:hover {
@@ -321,7 +331,7 @@ const Dashboard: React.FC = () => {
           <BalanceContainer>
             <BalanceText>$350.00</BalanceText>
             <RequestButton onClick={() => setModalOpen(true)}>
-              Request cash advance
+              Request money
             </RequestButton>
           </BalanceContainer>
           <Divider />
@@ -345,22 +355,25 @@ const Dashboard: React.FC = () => {
 
       <BottomNav>
         <NavItem
-          active={activeOption === "Insights"}
-          onClick={() => handleNavigation("Insights")}
+          active={activeOption === "Transactions"}
+          onClick={() => handleNavigation("Transactions")}
         >
-          <AiOutlineBarChart />
+          <AiOutlineCreditCard />
+          <span>Cards</span>
         </NavItem>
         <NavItem
           active={activeOption === "Dashboard"}
           onClick={() => handleNavigation("Dashboard")}
         >
           <AiOutlineDashboard />
+          <span>Home</span>
         </NavItem>
         <NavItem
-          active={activeOption === "Transactions"}
-          onClick={() => handleNavigation("Transactions")}
+          active={activeOption === "Insights"}
+          onClick={() => handleNavigation("Insights")}
         >
-          <AiOutlineCreditCard />
+          <AiOutlineBarChart />
+          <span>Stat</span>
         </NavItem>
       </BottomNav>
     </Layout>
