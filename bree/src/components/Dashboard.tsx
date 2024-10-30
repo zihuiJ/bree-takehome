@@ -6,6 +6,7 @@ import {
   AiOutlineSetting,
   AiOutlineUser,
   AiOutlineCreditCard,
+  AiOutlineBell,
 } from "react-icons/ai";
 import CashAdvanceModal from "./CashAdvanceModal";
 import TransactionList from "./TransactionList";
@@ -150,6 +151,33 @@ const NavItem = styled.div<{ active?: boolean }>`
   }
 `;
 
+const HeaderIcons = styled.div`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+`;
+
+const NotificationIconWrapper = styled.div`
+  position: relative;
+  cursor: pointer;
+  color: #7d7d7d;
+  font-size: 2rem;
+`;
+
+const NotificationBadge = styled.span`
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: red;
+  color: white;
+  font-size: 0.6rem;
+  padding: 2px 4px;
+  border-radius: 50%;
+`;
+
 const WelcomeHeader = styled.div`
   display: flex;
   flex-direction: column;
@@ -158,7 +186,7 @@ const WelcomeHeader = styled.div`
 `;
 
 const Greeting = styled.h1`
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: bold;
   margin: 0;
 `;
@@ -169,16 +197,18 @@ const Subtext = styled.p`
   margin: 0;
 `;
 
-const Balance = styled.h2`
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-align: center;
+const BalanceContainer = styled.div`
+  display: flex;
+  justify-content: space-between; /* Align balance left and button right */
+  align-items: center;
+  width: 100%; /* Make it take full width */
+  margin-bottom: 16px; /* Space below the container */
 `;
 
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 12px;
-  justify-content: center;
+const BalanceText = styled.h2`
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
 `;
 
 const RequestButton = styled.button`
@@ -189,12 +219,45 @@ const RequestButton = styled.button`
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 500;
   transition: background-color 0.3s;
 
   &:hover {
     background-color: #2563eb;
   }
+`;
+
+// const Balance = styled.h2`
+//   font-size: 2.5rem;
+//   font-weight: bold;
+//   text-align: left;
+// `;
+
+// const ButtonGroup = styled.div`
+//   display: flex;
+//   gap: 12px;
+//   justify-content: center;
+// `;
+
+// const RequestButton = styled.button`
+//   background-color: ${primaryColor};
+//   color: ${whiteColor};
+//   border: none;
+//   padding: 12px 24px;
+//   border-radius: 8px;
+//   cursor: pointer;
+//   font-size: 1rem;
+//   font-weight: bold;
+//   transition: background-color 0.3s;
+
+//   &:hover {
+//     background-color: #2563eb;
+//   }
+// `;
+
+const Divider = styled.hr`
+  border: none;
+  border-top: 1px solid #e0e0e0;
 `;
 
 const Dashboard: React.FC = () => {
@@ -242,18 +305,34 @@ const Dashboard: React.FC = () => {
 
       <ContentArea>
         <Pane>
+          <HeaderIcons>
+            <NotificationIconWrapper>
+              <AiOutlineBell />
+              <NotificationBadge>8</NotificationBadge>
+            </NotificationIconWrapper>
+          </HeaderIcons>
+
           <WelcomeHeader>
             <Greeting>Hi, Jess</Greeting>
             <Subtext>Welcome Back!</Subtext>
           </WelcomeHeader>
+          <Divider />
+          <Subtext>My balance</Subtext>
+          <BalanceContainer>
+            <BalanceText>$350.00</BalanceText>
+            <RequestButton onClick={() => setModalOpen(true)}>
+              Request cash advance
+            </RequestButton>
+          </BalanceContainer>
+          <Divider />
 
-          <Balance>Available Balance: $350</Balance>
+          {/* <Balance>$350.00</Balance>
 
           <ButtonGroup>
             <RequestButton onClick={() => setModalOpen(true)}>
               Request Cash Advance
             </RequestButton>
-          </ButtonGroup>
+          </ButtonGroup> */}
 
           <TransactionList />
 
