@@ -62,6 +62,12 @@ const CloseButton = styled.button`
   }
 `;
 
+const ErrorText = styled.p`
+  color: red;
+  margin-top: 8px;
+  font-size: 0.9rem;
+`;
+
 const StyledNumberInput = styled.input`
   width: 100%;
   padding: 10px;
@@ -69,7 +75,7 @@ const StyledNumberInput = styled.input`
   border-radius: 8px;
   border: 1px solid #e0e0e0;
   font-size: 1rem;
-  appearance: textfield; /* Remove default spinner */
+  appearance: textfield;
 
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
@@ -86,8 +92,7 @@ const ButtonGroup = styled.div`
 
 const SubmitButton = styled.button`
   flex: 2;
-  width: 100%;
-  background-color: #3b82f6; /* Primary blue color */
+  background-color: #3b82f6;
   color: white;
   border: none;
   padding: 12px 0;
@@ -97,16 +102,15 @@ const SubmitButton = styled.button`
   font-size: 1rem;
 
   &:hover {
-    background-color: #2563eb; /* Darker blue on hover */
+    background-color: #2563eb;
   }
 `;
 
 const CancelButton = styled.button`
   flex: 1;
-  width: 100%;
-  background-color: transparent; /* Transparent background */
-  color: #3b82f6; /* Blue text color */
-  border: 1px solid #3b82f6; /* Blue border */
+  background-color: transparent;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
   padding: 12px 0;
   border-radius: 8px;
   cursor: pointer;
@@ -114,64 +118,42 @@ const CancelButton = styled.button`
   font-size: 1rem;
 
   &:hover {
-    background-color: rgba(
-      59,
-      130,
-      246,
-      0.1
-    ); /* Light blue background on hover */
+    background-color: rgba(59, 130, 246, 0.1);
   }
 `;
 
-const Title = styled.h2`
-  font-size: 1.2rem;
-  font-weight: 600; /* Medium bold like the example */
-  color: #333; /* Dark grey for the heading */
-  margin-bottom: 4px; /* Space between heading and subheading */
-`;
-
-const SubTitle = styled.p`
-  font-size: 1rem;
-  font-weight: 400;
-  color: #7d7d7d; /* Lighter grey for subheading */
-  margin-top: 0; /* Remove extra margin at the top */
-  margin-bottom: 16px; /* Spacing below the subheading */
-`;
-
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const CashAdvanceModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const CashAdvanceModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
+  isOpen,
+  onClose,
+}) => {
   const [isClosing, setIsClosing] = useState(false);
   const [amount, setAmount] = useState<number | "">("");
-  const [isSubmitted, setIsSubmitted] = useState(false); // Track submission
+  const [error, setError] = useState<string | null>(null);
 
   const handleAmountChange = (value: string) => {
-    const numericValue =
-      value === "" ? "" : Math.max(0, Math.min(350, Number(value)));
+    const numericValue = value === "" ? 0 : Number(value);
     setAmount(numericValue);
-  };
-
-  const handleIncrement = (step: number) => {
-    setAmount((prevAmount) => Math.min(350, (prevAmount || 0) + step));
-  };
-
-  const handleDecrement = (step: number) => {
-    setAmount((prevAmount) => Math.max(0, (prevAmount || 0) - step));
+    if (numericValue > 350) {
+      setError("Please input an amount below $350");
+    } else {
+      setError(null);
+    }
   };
 
   const handleSubmit = () => {
-    if (amount === "" || amount === 0) return;
-    setIsSubmitted(true); // Set submission state to true
-    setTimeout(() => handleClose(), 2000); // Automatically close after showing success message
+    if (amount === "" || amount === 0 || amount > 350) {
+      setError("Please input an amount below $350");
+      return;
+    }
+    setError(null);
+    alert(`You have requested $${amount}`);
+    handleClose();
   };
 
   useEffect(() => {
     if (isOpen) {
-      setIsClosing(false); // Reset animation state
-      setIsSubmitted(false); // Reset submission state when reopened
+      setIsClosing(false);
+      setError(null); // Reset error on modal open
     }
   }, [isOpen]);
 
@@ -186,36 +168,20 @@ const CashAdvanceModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     <ModalOverlay isClosing={isClosing}>
       <ModalContent>
         <CloseButton onClick={handleClose}>&times;</CloseButton>
-
-        {/* Conditionally render success message or input form */}
-        {isSubmitted ? (
-          <>
-            <Title>Success!</Title>
-            <SubTitle>
-              You have requested ${amount}. It will be processed shortly.
-            </SubTitle>
-          </>
-        ) : (
-          <>
-            <Title>Request Cash Advance</Title>
-            <SubTitle>No additional fees required.</SubTitle>
-
-            <StyledNumberInput
-              type="number"
-              value={amount === "" ? "" : amount}
-              onChange={(e) => handleAmountChange(e.target.value)}
-              min="0"
-              max="350"
-              step="10"
-              placeholder="Enter amount"
-            />
-
-            <ButtonGroup>
-              <CancelButton onClick={handleClose}>Cancel</CancelButton>
-              <SubmitButton onClick={handleSubmit}>Request</SubmitButton>
-            </ButtonGroup>
-          </>
-        )}
+        <StyledNumberInput
+          type="number"
+          value={amount === "" ? "" : amount}
+          onChange={(e) => handleAmountChange(e.target.value)}
+          min="0"
+          max="350"
+          step="10"
+          placeholder="Enter amount"
+        />
+        {error && <ErrorText>{error}</ErrorText>}
+        <ButtonGroup>
+          <CancelButton onClick={handleClose}>Cancel</CancelButton>
+          <SubmitButton onClick={handleSubmit}>Request</SubmitButton>
+        </ButtonGroup>
       </ModalContent>
     </ModalOverlay>
   );

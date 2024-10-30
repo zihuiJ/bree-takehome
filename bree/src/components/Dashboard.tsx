@@ -15,6 +15,8 @@ import TransactionList from "./TransactionList";
 const primaryColor = "#3b82f6";
 const backgroundColor = "#f9f9f9";
 const whiteColor = "#ffffff";
+const secondaryBackgroundColor = "#f4f4f6"
+const subtextColor = "#7d7d7d"
 
 const Layout = styled.div`
   display: flex;
@@ -51,8 +53,8 @@ const SidebarOption = styled.div<{ active?: boolean }>`
   width: calc(100% - 12px); /* Adjust width to fit smaller margin */
   margin: 4px 6px; /* Less margin between options */
   cursor: pointer;
-  color: ${(props) => (props.active ? primaryColor : "#7d7d7d")};
-  background-color: ${(props) => (props.active ? "#f4f4f6" : "transparent")};
+  color: ${(props) => (props.active ? primaryColor : subtextColor)};
+  background-color: ${(props) => (props.active ? secondaryBackgroundColor : "transparent")};
   font-weight: 500;
   border-radius: 8px; /* Subtle rounded corners */
   transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
@@ -75,7 +77,7 @@ const LogoutButton = styled.button`
   font-weight: bold;
 
   &:hover {
-    background-color: #2563eb;
+    background-color: ${primaryColor};
   }
 `;
 
@@ -141,8 +143,8 @@ const NavItem = styled.div<{ active?: boolean }>`
   height: 70px; /* Adjust height to fit icon and text */
   cursor: pointer;
   border-radius: 12px; /* Rounded corners */
-  background-color: ${(props) => (props.active ? "#f4f4f6" : "transparent")};
-  color: ${(props) => (props.active ? primaryColor : "#7d7d7d")};
+  background-color: ${(props) => (props.active ? secondaryBackgroundColor : "transparent")};
+  color: ${(props) => (props.active ? primaryColor : subtextColor)};
   transition: background-color 0.3s, color 0.3s;
 
   & svg {
@@ -173,7 +175,7 @@ const HeaderIcons = styled.div`
 const NotificationIconWrapper = styled.div`
   position: relative;
   cursor: pointer;
-  color: #7d7d7d;
+  color: ${subtextColor};
   font-size: 2rem;
 `;
 
@@ -203,7 +205,7 @@ const Greeting = styled.h1`
 
 const Subtext = styled.p`
   font-size: 1rem;
-  color: #7d7d7d;
+  color: ${subtextColor};
   margin: 0;
 `;
 
