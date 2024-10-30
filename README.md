@@ -6,7 +6,8 @@
 3. run `npm install` to install the dependencies
 4. run `npm start` and the app will run on your http://localhost:3000/
 
-## design, features and challenges
+## design, additional features and challenges
+- following Bree's design themes with simple and clean interface
 - For desktop and tablet, there is a sidebar to navigate between pages
 - for mobile it is a bottom nav. I considered to use a burger icon, but decided this is more user friendly for mobile app users.
 - I added feature of auto closing 3 seconds after the success message for requests for a smoother user experience.
