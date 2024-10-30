@@ -33,8 +33,7 @@ const ModalOverlay = styled.div<{ isClosing: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: ${({ isClosing }) => (isClosing ? fadeOut : fadeIn)} 0.3s
-    ease-in-out;
+  animation: ${({ isClosing }) => (isClosing ? fadeOut : fadeIn)} 0.3s ease-in-out;
   transition: opacity 0.3s;
 `;
 
@@ -122,6 +121,21 @@ const CancelButton = styled.button`
   }
 `;
 
+const Title = styled.h2`
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+`;
+
+const SubTitle = styled.p`
+  font-size: 1rem;
+  font-weight: 400;
+  color: #7d7d7d;
+  margin-top: 0;
+  margin-bottom: 16px;
+`;
+
 const CashAdvanceModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
@@ -129,6 +143,7 @@ const CashAdvanceModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const [isClosing, setIsClosing] = useState(false);
   const [amount, setAmount] = useState<number | "">("");
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleAmountChange = (value: string) => {
     const numericValue = value === "" ? 0 : Number(value);
@@ -145,15 +160,17 @@ const CashAdvanceModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       setError("Please input an amount below $350");
       return;
     }
-    setError(null);
-    alert(`You have requested $${amount}`);
-    handleClose();
+    setIsSubmitted(true); // Show success message
+
+    // Automatically close the modal after 3 seconds
+    setTimeout(() => handleClose(), 3000);
   };
 
   useEffect(() => {
     if (isOpen) {
       setIsClosing(false);
-      setError(null); // Reset error on modal open
+      setError(null); // Reset error on open
+      setIsSubmitted(false); // Reset submission state on open
     }
   }, [isOpen]);
 
@@ -168,23 +185,37 @@ const CashAdvanceModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
     <ModalOverlay isClosing={isClosing}>
       <ModalContent>
         <CloseButton onClick={handleClose}>&times;</CloseButton>
-        <StyledNumberInput
-          type="number"
-          value={amount === "" ? "" : amount}
-          onChange={(e) => handleAmountChange(e.target.value)}
-          min="0"
-          max="350"
-          step="10"
-          placeholder="Enter amount"
-        />
-        {error && <ErrorText>{error}</ErrorText>}
-        <ButtonGroup>
-          <CancelButton onClick={handleClose}>Cancel</CancelButton>
-          <SubmitButton onClick={handleSubmit}>Request</SubmitButton>
-        </ButtonGroup>
+        {isSubmitted ? (
+          <>
+            <Title>Success!</Title>
+            <SubTitle>
+              You have requested ${amount}. It will be processed shortly.
+            </SubTitle>
+          </>
+        ) : (
+          <>
+            <Title>Request Cash Advance</Title>
+            <SubTitle>No additional fees required.</SubTitle>
+            <StyledNumberInput
+              type="number"
+              value={amount === "" ? "" : amount}
+              onChange={(e) => handleAmountChange(e.target.value)}
+              min="0"
+              max="350"
+              step="10"
+              placeholder="Enter amount"
+            />
+            {error && <ErrorText>{error}</ErrorText>}
+            <ButtonGroup>
+              <CancelButton onClick={handleClose}>Cancel</CancelButton>
+              <SubmitButton onClick={handleSubmit}>Request</SubmitButton>
+            </ButtonGroup>
+          </>
+        )}
       </ModalContent>
     </ModalOverlay>
   );
 };
 
 export default CashAdvanceModal;
+
