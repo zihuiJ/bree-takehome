@@ -2,7 +2,7 @@
 
 ## to run the project on your local
 1. clone the repo
-2. `cd bree`
+2. `cd bree` in your terminal
 3. run `npm install` to install the dependencies
 4. run `npm start` and the app will run on your http://localhost:3000/
 
