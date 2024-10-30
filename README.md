@@ -15,7 +15,7 @@
 - I added a unit test to test on the error handling when user inputs >350. I belive this is a super critical component to test on.
   
 ## challenges
-- To save time, I worked on CSS and jsx in the same file. If I am writing production code I would factor out the CSS for styled-component in its own file and import it. If I'm writing production code, I would also spend more time to improve further on maintainability such as factoring out reusable component CSS.
+- To save time, I worked on CSS and jsx in the same file. If I am writing production code I would either write smaller components or factor out the CSS for styled-component in its own file and import it. If I'm writing production code, I would also spend more time to improve further on maintainability such as factoring out reusable component CSS.
 
 
 
