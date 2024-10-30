@@ -239,33 +239,6 @@ const RequestButton = styled.button`
   }
 `;
 
-// const Balance = styled.h2`
-//   font-size: 2.5rem;
-//   font-weight: bold;
-//   text-align: left;
-// `;
-
-// const ButtonGroup = styled.div`
-//   display: flex;
-//   gap: 12px;
-//   justify-content: center;
-// `;
-
-// const RequestButton = styled.button`
-//   background-color: ${primaryColor};
-//   color: ${whiteColor};
-//   border: none;
-//   padding: 12px 24px;
-//   border-radius: 8px;
-//   cursor: pointer;
-//   font-size: 1rem;
-//   font-weight: bold;
-//   transition: background-color 0.3s;
-
-//   &:hover {
-//     background-color: #2563eb;
-//   }
-// `;
 
 const Divider = styled.hr`
   border: none;
@@ -337,14 +310,6 @@ const Dashboard: React.FC = () => {
             </RequestButton>
           </BalanceContainer>
           <Divider />
-
-          {/* <Balance>$350.00</Balance>
-
-          <ButtonGroup>
-            <RequestButton onClick={() => setModalOpen(true)}>
-              Request Cash Advance
-            </RequestButton>
-          </ButtonGroup> */}
 
           <TransactionList />
 
